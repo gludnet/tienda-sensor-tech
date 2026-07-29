@@ -3,367 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Naylamp Mockup - Tienda de Electrónica y Robótica</title>
-    <!-- Cargando Tailwind CSS para los estilos -->
+    <title>AYNY Tech - Tienda de Electrónica</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Cargando iconos de FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Cargando fuente Inter de Google Fonts -->
+    <!-- FontAwesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f3f4f6; 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
         }
-        /* Animaciones para las tarjetas de producto */
-        .product-card { 
-            transition: all 0.3s ease; 
+        
+        /* Tema de colores de AYNY Tech */
+        :root {
+            --bg-dark: #0b1024;
+            --bg-main: #111936;
+            --accent: #00cbf7;
+            --accent-hover: #00a9cc;
         }
-        .product-card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); 
+
+        /* Estilos del Mega Menú */
+        .mega-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+            border-top: 2px solid var(--accent);
         }
-        /* Ocultar scrollbar para nav de categorias en dispositivos móviles */
-        .no-scrollbar::-webkit-scrollbar { 
-            display: none; 
+        
+        .nav-item:hover .mega-menu {
+            display: block;
         }
-        .no-scrollbar { 
-            -ms-overflow-style: none; 
-            scrollbar-width: none; 
+
+        .menu-category-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #374151;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .menu-item {
+            display: block;
+            color: #4b5563;
+            font-size: 0.85rem;
+            padding: 0.25rem 0;
+            transition: color 0.2s;
+        }
+
+        .menu-item:hover {
+            color: var(--accent);
+        }
+
+        .menu-item i {
+            font-size: 0.6rem;
+            margin-right: 0.5rem;
+            color: #9ca3af;
+        }
+        
+        .menu-item:hover i {
+            color: var(--accent);
+        }
+
+        /* Utilidades para contenedor */
+        .container-custom {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
         }
     </style>
 </head>
-<body class="flex flex-col min-h-screen">
+<body>
 
-    <!-- Header / Navbar -->
-    <header class="bg-blue-700 text-white sticky top-0 z-50 shadow-md">
-        <div class="container mx-auto px-4 py-4">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                
-                <!-- Logo -->
-                <div class="flex items-center gap-2 cursor-pointer" onclick="filterCategory('Todos')">
-                    <i class="fa-solid fa-microchip text-3xl text-blue-300"></i>
-                    <div>
-                        <h1 class="text-2xl font-bold leading-tight">Aynitech</h1>
-                        <p class="text-xs text-blue-200">Electronics & Robotics</p>
-                    </div>
-                </div>
+    <!-- Top Bar (Gris Oscuro / Negro Azulado) -->
+    <div class="bg-[#0b1024] text-gray-300 text-xs py-2">
+        <div class="container-custom flex justify-between items-center">
+            <div>
+                ENVÍO GRATIS A TODO EL PERÚ POR COMPRAS MAYORES A S/200 [*CONDICIONES]
+            </div>
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-white transition">BIENVENIDO</a>
+                <span>|</span>
+                <a href="#" class="hover:text-white transition">INICIAR SESIÓN</a>
+                <span>|</span>
+                <a href="#" class="hover:text-white transition flex items-center">AYUDA <i class="fas fa-chevron-down ml-1 text-[10px]"></i></a>
+            </div>
+        </div>
+    </div>
 
-                <!-- Barra de búsqueda -->
-                <div class="w-full md:w-1/2 lg:w-1/3 relative">
-                    <input type="text" id="searchInput" placeholder="Buscar productos (ej. Arduino, Motor)..." 
-                           class="w-full pl-10 pr-4 py-2 rounded-full text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
-                </div>
+    <!-- Header Principal (Azul oscuro principal de AYNY Tech) -->
+    <header class="bg-[#111936] py-6">
+        <div class="container-custom flex items-center justify-between gap-8">
+            
+            <!-- Logo -->
+            <div class="flex-shrink-0 cursor-pointer" onclick="mostrarCategoria('inicio', 'DESTACADOS'); return false;">
+                <img src="logo.png" alt="AYNY Tech Logo" class="h-20 object-contain">
+            </div>
 
-                <!-- Carrito y Cuenta -->
-                <div class="flex items-center gap-6">
-                    <button class="hover:text-blue-200 transition">
-                        <i class="fa-regular fa-user text-xl"></i>
+            <!-- Buscador -->
+            <div class="flex-grow max-w-2xl">
+                <div class="relative flex items-center w-full h-10 rounded bg-white overflow-hidden">
+                    <input type="text" placeholder="Buscar en catálogo" class="w-full h-full py-2 px-4 text-sm text-gray-700 outline-none">
+                    <button class="px-4 text-gray-500 hover:text-[#00cbf7] transition-colors">
+                        <i class="fas fa-search"></i>
                     </button>
-                    <button class="relative flex items-center gap-2 bg-blue-800 hover:bg-blue-600 px-4 py-2 rounded-lg transition" onclick="showCartMessage()">
-                        <i class="fa-solid fa-cart-shopping text-xl"></i>
-                        <span class="font-medium hidden sm:inline">Mi Carrito</span>
-                        <span id="cartCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full border-2 border-blue-700 transition-transform">0</span>
-                    </button>
                 </div>
+            </div>
+
+            <!-- Carrito -->
+            <div class="flex-shrink-0 flex items-center text-white cursor-pointer hover:text-[#00cbf7] transition-colors">
+                <i class="fas fa-shopping-cart text-2xl mr-2"></i>
+                <span class="font-semibold text-sm">0 ARTÍCULO(S)</span>
             </div>
         </div>
     </header>
 
-    <!-- Contenido Principal -->
-    <main class="container mx-auto px-4 py-8 flex-grow flex flex-col md:flex-row gap-6">
-        
-        <!-- Sidebar de Categorías (Vertical en PC, Horizontal scroll en Móvil) -->
-        <aside class="w-full md:w-64 flex-shrink-0">
-            <div class="bg-white rounded-xl shadow-sm p-4 sticky top-24">
-                <h2 class="text-lg font-bold text-gray-800 mb-4 hidden md:block">Categorías</h2>
-                <div id="categoryList" class="flex md:flex-col gap-2 overflow-x-auto no-scrollbar md:overflow-visible pb-2 md:pb-0">
-                    <!-- Las categorías se inyectarán aquí con JavaScript -->
+    <!-- Barra de Navegación -->
+    <nav class="bg-[#111936] border-t border-gray-700 relative">
+        <div class="container-custom flex text-sm font-semibold text-white">
+            
+            <!-- Item con Mega Menú -->
+            <div class="nav-item border-l border-gray-700">
+                <a href="#" class="flex items-center px-6 py-4 text-[#00cbf7] hover:bg-gray-800 transition">
+                    <i class="fas fa-bars mr-2"></i> PRODUCTOS <i class="fas fa-chevron-down ml-2 text-[10px]"></i>
+                </a>
+                
+                <!-- Mega Menú Contenido -->
+                <div class="mega-menu absolute left-0 w-full bg-white shadow-xl py-8">
+                    <div class="container-custom grid grid-cols-4 gap-8">
+                        
+                        <!-- Columna 1 -->
+                        <div>
+                            <div class="mb-6">
+                                <div class="menu-category-title">ARDUSYSTEM</div>
+                                <a href="#" onclick="mostrarCategoria('arduino', 'ARDUINO ORIGINAL'); return false;" class="menu-item"><i class="fas fa-chevron-right"></i> Arduino Original</a>
+                                <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Kits de aprendizaje</a>
+                                <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Accesorios</a>
+                            </div>
+                            <div class="mb-6">
+                                <div class="menu-category-title">RASPBERRY PI</div>
+                                <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Tarjetas</a>
+                                <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Accesorios</a>
+                            </div>
+                        </div>
+
+                        <!-- Columna 2: Sensores -->
+                        <div>
+                            <div class="menu-category-title">SENSORES</div>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Líquidos</a>
+                            <!-- Enlace funcional al submenu -->
+                            <a href="#" onclick="mostrarCategoria('proximidad', 'SENSORES DE PROXIMIDAD'); return false;" class="menu-item"><i class="fas fa-chevron-right"></i> Proximidad</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Gas</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Fuerza y Peso</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Corriente y voltaje</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Otros</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Posición, Inerciales, GPS</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Luz y sonido</a>
+                            <!-- Enlace funcional al submenu -->
+                            <a href="#" onclick="mostrarCategoria('temperatura', 'SENSORES DE TEMPERATURA Y HUMEDAD'); return false;" class="menu-item"><i class="fas fa-chevron-right"></i> Temperatura y humedad</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Biometría</a>
+                        </div>
+
+                        <!-- Columna 3 -->
+                        <div>
+                            <div class="menu-category-title">IMPRESIÓN 3D</div>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Impresoras 3D FDM/FFF</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Consumibles</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Repuestos</a>
+                        </div>
+
+                        <!-- Columna 4 -->
+                        <div>
+                            <div class="menu-category-title">ROBÓTICA</div>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Móvil</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Brazo</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Drones</a>
+                            <a href="#" class="menu-item"><i class="fas fa-chevron-right"></i> Bípedos</a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </aside>
 
-        <!-- Sección de Productos -->
-        <section class="flex-grow">
-            <div class="flex justify-between items-center mb-6">
-                <h2 id="currentCategoryTitle" class="text-2xl font-bold text-gray-800">Todos los Productos</h2>
-                <span id="productCount" class="text-sm text-gray-500">Cargando...</span>
-            </div>
+            <!-- Otros Items de Navegación -->
+            <a href="#" class="px-6 py-4 hover:bg-gray-800 transition border-l border-gray-700">IMPRESIÓN 3D <i class="fas fa-chevron-down ml-1 text-[10px]"></i></a>
+            <a href="#" class="px-6 py-4 hover:bg-gray-800 transition border-l border-gray-700">TUTORIALES</a>
+            <a href="#" class="px-6 py-4 hover:bg-gray-800 transition border-l border-r border-gray-700">NOTICIAS</a>
+        </div>
+    </nav>
 
-            <!-- Cuadrícula (Grid) de productos -->
-            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Los productos se inyectarán aquí con JavaScript -->
-            </div>
+    <!-- Contenido Principal -->
+    <main class="container-custom py-8 bg-white mt-4 shadow-sm border border-gray-100 min-h-[500px]">
+        
+        <!-- Título de la Categoría y Filtros -->
+        <div class="mb-8 border-b pb-4">
+            <h1 id="titulo-categoria" class="text-2xl font-light text-gray-700 uppercase tracking-wide mb-4">INICIO - DESTACADOS</h1>
             
-            <!-- Estado Vacío (Cuando la búsqueda no tiene resultados) -->
-            <div id="emptyState" class="hidden flex-col items-center justify-center py-20 text-center">
-                <i class="fa-solid fa-box-open text-6xl text-gray-300 mb-4"></i>
-                <h3 class="text-xl font-bold text-gray-600">No se encontraron productos</h3>
-                <p class="text-gray-500 mt-2">Intenta con otros términos de búsqueda o cambia de categoría.</p>
+            <div class="flex items-center justify-between text-sm text-gray-600">
+                <div class="flex items-center">
+                    <span class="mr-2">Seleccionar</span>
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </div>
+                <div class="flex space-x-3 text-lg">
+                    <i class="fas fa-th text-gray-800 cursor-pointer hover:text-[#00cbf7] transition"></i>
+                    <i class="fas fa-bars text-gray-400 cursor-pointer hover:text-[#00cbf7] transition"></i>
+                </div>
             </div>
-        </section>
+        </div>
+
+        <!-- Grilla de Productos Dinámica -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Los productos se inyectarán aquí vía JavaScript -->
+        </div>
+
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-10 mt-auto">
-        <div class="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
-            <div>
-                <div class="flex items-center gap-2 mb-4 text-white">
-                    <i class="fa-solid fa-microchip text-2xl"></i>
-                    <h3 class="text-xl font-bold">Naylamp Mockup</h3>
-                </div>
-                <p class="text-gray-400 mb-4">Tu tienda especializada en electrónica, robótica, impresión 3D y mecatrónica en el Perú.</p>
-                <div class="flex gap-4">
-                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-facebook text-xl"></i></a>
-                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram text-xl"></i></a>
-                    <a href="#" class="hover:text-white transition"><i class="fa-brands fa-youtube text-xl"></i></a>
-                </div>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Enlaces Rápidos</h4>
-                <ul class="space-y-2">
-                    <li><a href="#" class="hover:text-blue-400 transition">Términos y Condiciones</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition">Políticas de Envío</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition">Garantía y Devoluciones</a></li>
-                    <li><a href="#" class="hover:text-blue-400 transition">Contáctanos</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="text-white font-bold mb-4 uppercase tracking-wider">Contacto</h4>
-                <ul class="space-y-3">
-                    <li class="flex items-start gap-3"><i class="fa-solid fa-location-dot mt-1"></i> <span>Av. Ejemplo 123, Cercado, Arequipa, Perú</span></li>
-                    <li class="flex items-center gap-3"><i class="fa-solid fa-phone"></i> <span>+51 987 654 321</span></li>
-                    <li class="flex items-center gap-3"><i class="fa-solid fa-envelope"></i> <span>ventas@naylampmockup.com</span></li>
-                </ul>
-            </div>
-        </div>
-        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-xs">
-            <p>&copy; 2026 Naylamp Mockup - Simulación. Este no es el sitio web real de Naylamp Mechatronics.</p>
-        </div>
+    <footer class="bg-[#0b1024] text-white mt-12 py-8 text-center text-sm border-t-4 border-[#00cbf7]">
+        <p>&copy; 2026 AYNY Tech. Todos los derechos reservados.</p>
+        <p class="text-gray-400 mt-2">Tecnología para la vida</p>
     </footer>
 
-    <!-- Notificación tipo Toast (Reemplaza al molesto alert) -->
-    <div id="toast" class="fixed bottom-4 right-4 bg-gray-800 text-white px-6 py-4 rounded-lg shadow-2xl flex items-center gap-4 z-50 transform translate-y-32 opacity-0 transition-all duration-300 pointer-events-none">
-        <div class="bg-green-500 rounded-full p-2 flex items-center justify-center">
-            <i class="fa-solid fa-check text-white text-sm"></i>
-        </div>
-        <div>
-            <p class="font-bold text-sm" id="toastTitle">Producto añadido</p>
-            <p class="text-xs text-gray-300" id="toastDesc">El producto está en tu carrito.</p>
-        </div>
-    </div>
-
-    <!-- Scripts -->
     <script>
-        // Simulación de base de datos extraída de las categorías reales
-        const categories = [
-            "Todos",
-            "Microcontroladores y Desarrollo",
-            "Sensores y Módulos",
-            "Actuadores y Motores",
-            "Impresión 3D y CNC",
-            "Energía y Fuentes",
-            "Comunicación e Inalámbricos",
-            "Componentes Pasivos"
+        /* 
+           BASE DE DATOS SIMULADA
+           Aquí puedes agregar todos los productos que vayas a vender.
+           Asegúrate de ponerles una 'category' que coincida con los menús.
+        */
+        const productosDB = [
+            // Categoria: Arduino
+            { category: 'arduino', id: 1, name: "ARDUINO NANO EVERY - Original", sku: "001002", price: "99,00", image: "https://placehold.co/300x200/ffffff/0b1024?text=Nano+Every", stockStatus: "low", stockText: "Últimas unidades en stock" },
+            { category: 'arduino', id: 2, name: "ARDUINO MICRO - Original", sku: "001001", price: "199,00", image: "https://placehold.co/300x200/ffffff/0b1024?text=Micro", stockStatus: "in-stock", stockText: "En Stock" },
+            { category: 'arduino', id: 3, name: "ARDUINO UNO R3 - Original", sku: "001000", price: "120,00", image: "https://placehold.co/300x200/ffffff/0b1024?text=Arduino+UNO", stockStatus: "out-of-stock", stockText: "Agotado" },
+            
+            // Categoria: Sensores de Proximidad
+            { category: 'proximidad', id: 4, name: "SENSOR ULTRASÓNICO HC-SR04", sku: "002001", price: "8,50", image: "https://placehold.co/300x200/ffffff/00cbf7?text=HC-SR04", stockStatus: "in-stock", stockText: "En Stock" },
+            { category: 'proximidad', id: 5, name: "MÓDULO SENSOR INFRARROJO EVASOR DE OBSTÁCULOS", sku: "002002", price: "4,50", image: "https://placehold.co/300x200/ffffff/00cbf7?text=IR+Obstaculos", stockStatus: "in-stock", stockText: "En Stock" },
+            { category: 'proximidad', id: 6, name: "SENSOR DE MOVIMIENTO PIR HC-SR501", sku: "002003", price: "9,00", image: "https://placehold.co/300x200/ffffff/00cbf7?text=PIR+Sensor", stockStatus: "low", stockText: "Últimas unidades" },
+
+            // Categoria: Sensores de Temperatura
+            { category: 'temperatura', id: 7, name: "SENSOR DE TEMPERATURA Y HUMEDAD DHT11", sku: "003001", price: "12,00", image: "https://placehold.co/300x200/ffffff/00cbf7?text=DHT11", stockStatus: "in-stock", stockText: "En Stock" },
+            { category: 'temperatura', id: 8, name: "SENSOR DE TEMPERATURA Y HUMEDAD DHT22", sku: "003002", price: "25,00", image: "https://placehold.co/300x200/ffffff/00cbf7?text=DHT22", stockStatus: "out-of-stock", stockText: "Agotado" },
+            { category: 'temperatura', id: 9, name: "SENSOR DE TEMPERATURA SUMERGIBLE DS18B20", sku: "003003", price: "18,50", image: "https://placehold.co/300x200/ffffff/00cbf7?text=DS18B20", stockStatus: "in-stock", stockText: "En Stock" },
+            
+            // Inicio (Destacados)
+            { category: 'inicio', id: 10, name: "KIT RASPBERRY PI 4 4GB", sku: "004001", price: "450,00", image: "https://placehold.co/300x200/ffffff/0b1024?text=Raspberry+Pi+4", stockStatus: "in-stock", stockText: "En Stock" },
+            { category: 'inicio', id: 1, name: "ARDUINO NANO EVERY - Original", sku: "001002", price: "99,00", image: "https://placehold.co/300x200/ffffff/0b1024?text=Nano+Every", stockStatus: "low", stockText: "Últimas unidades en stock" },
+            { category: 'inicio', id: 7, name: "SENSOR DE TEMPERATURA Y HUMEDAD DHT11", sku: "003001", price: "12,00", image: "https://placehold.co/300x200/ffffff/00cbf7?text=DHT11", stockStatus: "in-stock", stockText: "En Stock" },
+            { category: 'inicio', id: 4, name: "SENSOR ULTRASÓNICO HC-SR04", sku: "002001", price: "8,50", image: "https://placehold.co/300x200/ffffff/00cbf7?text=HC-SR04", stockStatus: "in-stock", stockText: "En Stock" }
         ];
 
-        const products = [
-            { id: 1, name: "Placa Arduino Uno R3 Compatible (CH340)", cat: "Microcontroladores y Desarrollo", price: 35.00, oldPrice: null, imgText: "Arduino+Uno", tag: "Más Vendido" },
-            { id: 2, name: "Raspberry Pi 4 Model B - 4GB RAM", cat: "Microcontroladores y Desarrollo", price: 320.00, oldPrice: 350.00, imgText: "Raspberry+Pi+4", tag: null },
-            { id: 3, name: "Módulo ESP32 NodeMCU WiFi+Bluetooth", cat: "Microcontroladores y Desarrollo", price: 28.50, oldPrice: null, imgText: "ESP32", tag: null },
-            
-            { id: 4, name: "Sensor de Distancia Ultrasónico HC-SR04", cat: "Sensores y Módulos", price: 8.50, oldPrice: 10.00, imgText: "HC-SR04", tag: "Oferta" },
-            { id: 5, name: "Sensor de Temperatura y Humedad DHT11", cat: "Sensores y Módulos", price: 12.00, oldPrice: null, imgText: "DHT11", tag: null },
-            { id: 6, name: "Módulo GPS NEO-6M con Antena", cat: "Sensores y Módulos", price: 45.00, oldPrice: null, imgText: "GPS+NEO6M", tag: null },
-            
-            { id: 7, name: "Servomotor SG90 9g (180 grados)", cat: "Actuadores y Motores", price: 10.50, oldPrice: null, imgText: "Servo+SG90", tag: "Popular" },
-            { id: 8, name: "Motor Paso a Paso NEMA 17 (1.2A 4Kg.cm)", cat: "Actuadores y Motores", price: 48.00, oldPrice: null, imgText: "NEMA+17", tag: null },
-            { id: 9, name: "Motor DC N20 con Reductor metálico 6V", cat: "Actuadores y Motores", price: 22.00, oldPrice: 25.00, imgText: "Motor+N20", tag: null },
-            
-            { id: 10, name: "Filamento PLA 1.75mm 1Kg - Color Negro", cat: "Impresión 3D y CNC", price: 65.00, oldPrice: 75.00, imgText: "PLA+Negro", tag: "Oferta" },
-            { id: 11, name: "Boquilla Extrusor MK8 (0.4mm)", cat: "Impresión 3D y CNC", price: 5.00, oldPrice: null, imgText: "Nozzle+0.4", tag: null },
-            { id: 12, name: "Perfil de Aluminio V-Slot 2020 (1 metro)", cat: "Impresión 3D y CNC", price: 25.00, oldPrice: null, imgText: "V-Slot+2020", tag: null },
-            
-            { id: 13, name: "Fuente de Alimentación Switching 12V 5A", cat: "Energía y Fuentes", price: 38.00, oldPrice: null, imgText: "Fuente+12V", tag: null },
-            { id: 14, name: "Módulo Conversor DC-DC Step Down LM2596", cat: "Energía y Fuentes", price: 6.50, oldPrice: null, imgText: "LM2596", tag: null },
-            { id: 15, name: "Batería LiPo 3S 11.1V 2200mAh", cat: "Energía y Fuentes", price: 85.00, oldPrice: null, imgText: "Bateria+LiPo", tag: null },
-            
-            { id: 16, name: "Módulo Bluetooth HC-05 (Maestro/Esclavo)", cat: "Comunicación e Inalámbricos", price: 18.00, oldPrice: 22.00, imgText: "HC-05", tag: null },
-            { id: 17, name: "Módulo Transceptor LoRa Ra-02 433MHz", cat: "Comunicación e Inalámbricos", price: 26.00, oldPrice: null, imgText: "LoRa+Ra02", tag: null },
-            
-            { id: 18, name: "Kit Protoboard 830 puntos + Cables + Fuente", cat: "Componentes Pasivos", price: 25.00, oldPrice: 30.00, imgText: "Kit+Protoboard", tag: "Kit" },
-            { id: 19, name: "Cables Jumper Dupont Macho-Macho 20cm (40 pcs)", cat: "Componentes Pasivos", price: 7.00, oldPrice: null, imgText: "Jumpers+MM", tag: null },
-            { id: 20, name: "Display LCD 16x2 con Módulo I2C", cat: "Componentes Pasivos", price: 15.00, oldPrice: null, imgText: "LCD+I2C", tag: null },
-        ];
-
-        let cartItems = 0;
-        let currentCategory = "Todos";
-        let searchQuery = "";
-
-        // Elementos del DOM
-        const categoryListEl = document.getElementById('categoryList');
-        const productGridEl = document.getElementById('productGrid');
-        const currentCategoryTitle = document.getElementById('currentCategoryTitle');
-        const productCountEl = document.getElementById('productCount');
-        const emptyStateEl = document.getElementById('emptyState');
-        const searchInput = document.getElementById('searchInput');
-        const cartCountEl = document.getElementById('cartCount');
-        const toastEl = document.getElementById('toast');
-
-        // Renderizar Categorías en el menú lateral
-        function renderCategories() {
-            categoryListEl.innerHTML = categories.map(cat => `
-                <button onclick="filterCategory('${cat}')" 
-                    class="whitespace-nowrap md:whitespace-normal text-left px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium
-                    ${currentCategory === cat ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:bg-gray-100'}">
-                    ${cat}
-                </button>
-            `).join('');
+        function getStockStyle(status) {
+            switch(status) {
+                case 'in-stock': return 'border-green-600 text-green-700';
+                case 'low': return 'border-orange-500 text-orange-600';
+                case 'out-of-stock': return 'border-red-600 text-red-600 bg-gray-50';
+                default: return 'border-gray-400 text-gray-600';
+            }
         }
 
-        // Renderizar Productos en la cuadrícula
-        function renderProducts() {
-            // Filtrar por categoría y búsqueda
-            const filtered = products.filter(p => {
-                const matchCategory = currentCategory === "Todos" || p.cat === currentCategory;
-                const matchSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase());
-                return matchCategory && matchSearch;
-            });
+        function getActionButton(status) {
+             if(status === 'out-of-stock') {
+                 return `<button class="w-full bg-gray-400 text-white py-2 px-4 rounded-sm mt-4 flex items-center justify-center cursor-not-allowed">
+                            <i class="fas fa-times-circle mr-2"></i> Agotado
+                         </button>`;
+             } else {
+                 return `<button class="w-full bg-[#00cbf7] text-[#111936] font-bold py-2 px-4 rounded-sm hover:bg-[#00a9cc] hover:text-white transition duration-200 mt-4 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                            <i class="fas fa-cart-plus mr-2"></i> Añadir
+                         </button>`;
+             }
+        }
 
-            // Actualizar Títulos y Contadores
-            currentCategoryTitle.textContent = currentCategory === "Todos" && searchQuery ? 'Resultados de Búsqueda' : currentCategory;
-            productCountEl.textContent = `${filtered.length} producto(s)`;
+        function renderizarProductos(productosParaMostrar) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = ''; // Limpiar la grilla antes de poner los nuevos
 
-            // Mostrar estado vacío si no hay resultados
-            if (filtered.length === 0) {
-                productGridEl.innerHTML = '';
-                emptyStateEl.classList.remove('hidden');
-                emptyStateEl.classList.add('flex');
+            if (productosParaMostrar.length === 0) {
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10 text-lg">No se encontraron productos en esta categoría.</p>';
                 return;
             }
 
-            emptyStateEl.classList.add('hidden');
-            emptyStateEl.classList.remove('flex');
+            // Recorrer los productos y crear el HTML de cada tarjeta
+            productosParaMostrar.forEach(product => {
+                const isOutOfStock = product.stockStatus === 'out-of-stock';
+                const imageOpacity = isOutOfStock ? 'opacity-50 grayscale' : 'opacity-100';
 
-            // Generar HTML para las tarjetas de productos
-            productGridEl.innerHTML = filtered.map(p => {
-                // Generador de imágenes de marcador de posición (placeholder)
-                const imgUrl = `https://placehold.co/400x300/e2e8f0/1e293b?text=${p.imgText}`;
-                const hasDiscount = p.oldPrice && p.oldPrice > p.price;
-                
-                // Etiquetas dinámicas (Oferta, Más Vendido, etc.)
-                let tagHtml = '';
-                if (p.tag) {
-                    const tagColor = p.tag === 'Oferta' ? 'bg-red-500' : (p.tag === 'Más Vendido' ? 'bg-orange-500' : 'bg-blue-500');
-                    tagHtml = `<span class="absolute top-3 left-3 ${tagColor} text-white text-xs font-bold px-2 py-1 rounded shadow-sm z-10">${p.tag}</span>`;
-                }
-
-                return `
-                <div class="product-card bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col relative h-full">
-                    ${tagHtml}
-                    <div class="h-48 bg-gray-200 w-full overflow-hidden relative group">
-                        <img src="${imgUrl}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                    </div>
-                    
-                    <div class="p-4 flex flex-col flex-grow">
-                        <p class="text-xs text-gray-400 mb-1 uppercase tracking-wider font-semibold">${p.cat}</p>
-                        <h3 class="text-sm font-semibold text-gray-800 mb-2 flex-grow line-clamp-2" title="${p.name}">${p.name}</h3>
+                const productHTML = `
+                    <div class="product-card flex flex-col items-center text-center group bg-white p-4 transition duration-300 hover:shadow-xl border border-gray-100 hover:border-[#00cbf7] rounded h-full">
                         
-                        <div class="flex items-end gap-2 mb-4 mt-auto">
-                            <span class="text-xl font-bold text-blue-700">S/ ${p.price.toFixed(2)}</span>
-                            ${hasDiscount ? `<span class="text-xs text-gray-400 line-through mb-1">S/ ${p.oldPrice.toFixed(2)}</span>` : ''}
+                        <!-- Imagen -->
+                        <div class="h-40 w-full flex items-center justify-center mb-6 overflow-hidden bg-white p-2">
+                            <img src="${product.image}" alt="${product.name}" class="max-h-full max-w-full object-contain ${imageOpacity} group-hover:scale-105 transition-transform duration-300">
                         </div>
-                        
-                        <button onclick="addToCart('${p.name}')" class="w-full bg-gray-50 hover:bg-blue-600 text-blue-700 hover:text-white border border-blue-200 hover:border-transparent font-medium py-2 rounded-lg transition-colors flex justify-center items-center gap-2">
-                            <i class="fa-solid fa-cart-plus"></i> Añadir al Carrito
-                        </button>
+
+                        <!-- Estado del Stock -->
+                        <div class="mb-3 h-6">
+                            <span class="inline-block border px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wider ${getStockStyle(product.stockStatus)}">
+                                ${product.stockText}
+                            </span>
+                        </div>
+
+                        <!-- Nombre -->
+                        <h3 class="text-sm text-gray-800 mb-2 h-10 overflow-hidden group-hover:text-[#00cbf7] transition-colors cursor-pointer font-bold leading-tight">
+                            ${product.name}
+                        </h3>
+
+                        <!-- SKU -->
+                        <p class="text-[11px] text-gray-400 mb-3 font-semibold uppercase">
+                            SKU: ${product.sku}
+                        </p>
+
+                        <!-- Precio -->
+                        <div class="text-xl font-bold text-[#111936] mt-auto">
+                            S/ ${product.price}
+                        </div>
+
+                        <!-- Botón Añadir -->
+                        ${getActionButton(product.stockStatus)}
                     </div>
-                </div>
                 `;
-            }).join('');
+                grid.innerHTML += productHTML;
+            });
         }
 
-        // Acciones e Interacciones
-        window.filterCategory = (cat) => {
-            currentCategory = cat;
-            renderCategories();
-            renderProducts();
-            // Hacer scroll hacia arriba en móviles al cambiar de categoría
-            if(window.innerWidth < 768) {
-                document.getElementById('currentCategoryTitle').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+        // Esta función se llama desde los enlaces HTML (ej: onclick="mostrarCategoria('proximidad', '...')")
+        window.mostrarCategoria = function(categoriaId, tituloCategoria) {
+            
+            // 1. Ocultar el menu (útil al hacer clic)
+            const menu = document.querySelector('.mega-menu');
+            if(menu) menu.style.display = 'none';
+            setTimeout(() => { if(menu) menu.style.display = ''; }, 100);
+
+            // 2. Cambiar el título
+            document.getElementById('titulo-categoria').innerText = tituloCategoria;
+            
+            // 3. Filtrar la base de datos
+            const productosFiltrados = productosDB.filter(p => p.category === categoriaId);
+            
+            // 4. Mostrar en pantalla
+            renderizarProductos(productosFiltrados);
         };
 
-        let toastTimeout;
-        
-        // Lógica para añadir al carrito
-        window.addToCart = (productName) => {
-            cartItems++;
-            cartCountEl.textContent = cartItems;
-            
-            // Animación pop del contador
-            cartCountEl.classList.add('scale-150');
-            setTimeout(() => cartCountEl.classList.remove('scale-150'), 200);
-
-            // Mostrar notificación Toast
-            const toastDesc = document.getElementById('toastDesc');
-            toastDesc.textContent = productName;
-            
-            toastEl.classList.remove('translate-y-32', 'opacity-0');
-            toastEl.classList.add('translate-y-0', 'opacity-100');
-
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toastEl.classList.remove('translate-y-0', 'opacity-100');
-                toastEl.classList.add('translate-y-32', 'opacity-0');
-            }, 3000);
-        };
-
-        // Mensaje al hacer clic en el carrito
-        window.showCartMessage = () => {
-            const toastTitle = document.getElementById('toastTitle');
-            const toastDesc = document.getElementById('toastDesc');
-            
-            if(cartItems === 0){
-                toastTitle.textContent = "Carrito Vacío";
-                toastDesc.textContent = "Añade productos para verlos aquí.";
-                toastEl.querySelector('.bg-green-500').classList.replace('bg-green-500', 'bg-blue-500');
-                toastEl.querySelector('i').className = "fa-solid fa-info text-white text-sm";
-            } else {
-                toastTitle.textContent = "Ir a Pagar";
-                toastDesc.textContent = `Tienes ${cartItems} producto(s) en tu carrito listos para comprar.`;
-            }
-            
-            toastEl.classList.remove('translate-y-32', 'opacity-0');
-            toastEl.classList.add('translate-y-0', 'opacity-100');
-
-            clearTimeout(toastTimeout);
-            toastTimeout = setTimeout(() => {
-                toastEl.classList.remove('translate-y-0', 'opacity-100');
-                toastEl.classList.add('translate-y-32', 'opacity-0');
-                
-                // Resetear estilos del Toast después de ocultarse
-                setTimeout(() => {
-                    toastTitle.textContent = "Producto añadido";
-                    if(toastEl.querySelector('.bg-blue-500')) {
-                        toastEl.querySelector('.bg-blue-500').classList.replace('bg-blue-500', 'bg-green-500');
-                        toastEl.querySelector('i').className = "fa-solid fa-check text-white text-sm";
-                    }
-                }, 300);
-            }, 3000);
-        };
-
-        // Escuchar eventos en la barra de búsqueda
-        searchInput.addEventListener('input', (e) => {
-            searchQuery = e.target.value;
-            renderProducts();
-        });
-
-        // Inicializar la página cargando categorías y productos
-        renderCategories();
-        renderProducts();
+        // Render inicial (Mostrar la página de inicio al cargar)
+        mostrarCategoria('inicio', 'DESTACADOS');
     </script>
 </body>
 </html>
